@@ -8,11 +8,24 @@ public class Player : MonoBehaviour
     public Rigidbody2D rb;
     public float MoveSpeed;
     private float XInput;
+
+    private Animator animator;
+
+    [SerializeField]private bool IsMoving;
   
 
     void Start()
     {
-        
+        animator = GetComponentInChildren<Animator>();
+        if (animator == null)
+    {
+        Debug.LogError("Animator component not found on this GameObject or its children.");
+    }
+
+    if (rb == null)
+    {
+        Debug.LogError("Rigidbody2D component not assigned.");
+    }
     }
 
    
@@ -27,5 +40,12 @@ public class Player : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x,4);
         }
+
+       
+        IsMoving = rb.velocity.x != 0;
+
+        animator.SetBool("IsMoving", IsMoving);
     }
+
+
 }
